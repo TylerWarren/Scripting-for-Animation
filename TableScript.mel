@@ -1,0 +1,25 @@
+//Creates table head
+polyCube -sx 1 -sy 1 -sz 1 -h 0.60 -w 13 -d 13;
+move -relative -objectSpace -worldSpaceDistance 0 10 0;
+
+
+//Creates the table legs
+polyCube -sx 1 -sy 1 -sz 1 -h 10;
+move -relative -objectSpace -worldSpaceDistance -5 5 5;
+
+polyCube -sx 1 -sy 1 -sz 1 -h 10;
+move -relative -objectSpace -worldSpaceDistance 5 5 -5;
+
+polyCube -sx 1 -sy 1 -sz 1 -h 10;
+move -relative -objectSpace -worldSpaceDistance 5 5 5;
+
+polyCube -sx 1 -sy 1 -sz 1 -h 10;
+move -relative -objectSpace -worldSpaceDistance -5 5 -5;
+
+
+//Creates table side strechers
+polyCube -sx 1 -sy 1 -sz 1 -h 1 -w 10 -d 0.50;
+move -relative -objectSpace -worldSpaceDistance 0 3 5;
+
+polyCube -sx 1 -sy 1 -sz 1 -h 1 -w 10 -d 0.50;
+move -relative -objectSpace -worldSpaceDistance 0 3 -5;
