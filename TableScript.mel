@@ -2,6 +2,10 @@
 polyCube -sx 1 -sy 1 -sz 1 -h 0.60 -w 13 -d 13;
 move -relative -objectSpace -worldSpaceDistance 0 10 0;
 
+//Adds the box apron
+polyCube -sx 1 -sy 1 -sz 1 -h 0.60 -w 10.6 -d 10.6;
+move -relative -objectSpace -worldSpaceDistance 0 9.4 0;
+
 
 //Creates the table legs
 polyCube -sx 1 -sy 1 -sz 1 -h 10;
@@ -23,3 +27,16 @@ move -relative -objectSpace -worldSpaceDistance 0 3 5;
 
 polyCube -sx 1 -sy 1 -sz 1 -h 1 -w 10 -d 0.50;
 move -relative -objectSpace -worldSpaceDistance 0 3 -5;
+
+//Adds toy blocks onto the table
+polyCube -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance 3.2 10.8 2.5;
+
+polyCube -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance 0 10.8 -3.1;
+
+polyCone -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance -3.2 11.3 3.2;
+
+polyCylinder -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance -1.4 11.3 0.02;
