@@ -1,0 +1,71 @@
+//Creates table head
+
+float $height = 0.70;
+float $width = 13;
+float $depth = 13;
+
+polyCube -width $width -height $height -depth $depth -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance 0 10 0;
+
+
+//Creates the table legs
+
+float $height = 10;
+
+polyCube -height $height -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance -5 5 5;
+
+polyCube -height $height -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance 5 5 -5;
+
+polyCube -height $height -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance 5 5 5;
+
+polyCube -height $height -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance -5 5 -5;
+
+
+//Creates table side strechers
+
+float $width = 10;
+float $depth = 0.50;
+float $height = 1;
+
+polyCube -width $width -depth $depth -height $height -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance 0 3 5;
+
+polyCube -width $width -depth $depth -height $height -sx 1 -sy 1 -sz 1; 
+move -relative -objectSpace -worldSpaceDistance 0 3 -5;
+
+//Adds toy blocks onto the table and randomizes the sizes
+polyCube -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance 3.2 10.8 2.5;
+
+float $scaleX = rand(1, 2);
+float $scaleY = rand(1, 2);
+
+scale $scaleX $scaleY;
+
+polyCube -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance 0 10.8 -3.1;
+
+float $scaleX = rand(1, 2);
+float $scaleY = rand(1, 2);
+
+scale $scaleX $scaleY;
+
+polyCone -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance -3.2 11.6 3.2;
+
+float $scaleX = rand(1, 2);
+float $scaleY = rand(1, 2);
+
+scale $scaleX $scaleY;
+
+polyCylinder -sx 1 -sy 1 -sz 1;
+move -relative -objectSpace -worldSpaceDistance -1.4 11.6 0.02;
+
+float $scaleX = rand(1, 2);
+float $scaleY = rand(1, 2);
+
+scale $scaleX $scaleY;
