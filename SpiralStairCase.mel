@@ -5,20 +5,24 @@ int $numStairs = 94;
 
 proc createStairs(float $width, float $height, float $depth, int $numStairs)
 {
+  // Caculates the size of the spiral
   float $radius = 5;
   float $anglestep = 380 / $numStairs;
   float $heightStep = $height;
 
+  // Creates the centeral support piller
   polyCylinder -sx 1 -sy 1 -sz 1 -h 43;
   move -relative -objectSpace 0 21 0;
 
   for ($i = 0; $i < $numStairs; $i++)
   {
+    // Caculates the postion of each step
     float $angle = $i * $anglestep;
     float $xPos = $radius * sin(deg_to_rad($angle));
     float $zPos = $radius * cos(deg_to_rad($angle));
     float $yPos = $i * $heightStep;
     
+    // Creates a step with a poly cube
     polyCube -width $width -height $height -depth $depth -sx 1 -sy 1 -sz 1;
     move -relative -objectSpace $xPos $yPos $zPos;
     rotate -relative -objectSpace 0 $angle 0;
