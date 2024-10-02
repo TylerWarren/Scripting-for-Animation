@@ -1,0 +1,158 @@
+global proc float add(int $input[]) {
+    float $sum = $input[0];
+    for ($i = 1; $i < size($input); $i++) {
+        $sum += $input[$i];
+    }
+    return $sum;
+}
+
+// Subtraction
+global proc float subtract(int $input[]) {
+    float $difference = $input[0];
+    for ($i = 1; $i < size($input); $i++) {
+        $difference -= $input[$i];
+    }
+    return $difference;
+}
+
+// Multiplication
+global proc float multiply(int $input[]) {
+    float $multiplication = $input[0];
+    for ($i = 1; $i < size($input); $i++) {
+        $multiplication *= $input[$i];
+    }
+    return $multiplication;
+}
+
+// Division
+global proc float divide(int $input[]) {
+    float $division = $input[0];
+    for ($i = 1; $i < size($input); $i++) {
+        if ($input[$i] != 0) {
+            $division /= $input[$i];
+        } else {
+            print("Error: Cannot divide by zero!\n");
+            return -1;
+        }
+    }
+    return $division;
+}
+
+// Power
+global proc float power(int $input[]) {
+    float $power1 = $input[0];
+    for ($i = 1; $i < size($input); $i++) {
+        $power1 = pow($power1, $input[$i]); 
+    }
+    return $power1;
+}
+
+// Mean
+global proc float mean(int $input[]) {
+    float $sum1 = $input[0];
+    int $count = size($input);
+
+    for ($i = 1; $i < size($input); $i++) {
+        $sum1 += $input[$i];
+    }
+    return $sum1 / $count;
+}
+
+// Median
+global proc float median(int $input[]) {
+    int $count = size($input);
+    sort($input);
+
+        if ($count % 2 == 1) {
+        return $input[($count - 1) / 2];
+        } else {
+            float $middle1 = $input[($count / 2) - 1];
+            float $middle2 = $input[$count / 2];
+            return ($middle1 + $middle2) / 2;
+    }      
+}
+
+
+global proc float calculator(int $input[], string $operation) {
+    float $result = 0;
+    string $operationName = "";
+    string $operationSymbol = "";
+    string $inputString = "";
+
+    
+    for ($i = 0; $i < size($input); $i++) {
+        if ($i == size($input) - 1) {
+            $inputString += $input[$i];  
+        } else {
+            $inputString += $input[$i] + ", ";  
+        }
+    }
+
+    // Determines the operation to perform
+    if ($operation == "add") {
+        $result = add($input);
+        $operationName = "sum";
+        $operationSymbol = " + ";
+    } else if ($operation == "subtract") {
+        $result = subtract($input);
+        $operationName = "difference";
+        $operationSymbol = " - ";
+    } else if ($operation == "multiply") {
+        $result = multiply($input);
+        $operationName = "product";
+        $operationSymbol = " * ";
+    } else if ($operation == "divide") {
+        $result = divide($input);
+        if ($result == -1) {
+            return -1;  
+        }
+        $operationName = "quotient";
+        $operationSymbol = " / ";
+    } else if ($operation == "power") {
+        $result = power($input);
+        $operationName = "power";
+        $operationSymbol = " ^ ";
+    } else if ($operation == "mean") {
+        $result = mean($input);
+        $operationName = "mean";
+    } else if ($operation == "median") {
+        $result = median($input);
+        $operationName = "median";
+    }
+
+    // Prints statement based on operation
+    if ($operation == "mean" || $operation == "median") {
+        print("The " + $operationName + " of " + $inputString + " is " + $result + "\n");
+    } else {
+        string $expressionString = $input[0];  
+        for ($i = 1; $i < size($input); $i++) {
+            $expressionString += $operationSymbol + $input[$i];
+        }
+        print($expressionString + " = " + $result + "\n");
+    }
+
+    return $result;
+}
+
+// Results
+int $numbers[] = {2, 6, 8, 4, 0, 1, 8}; 
+float $addResult = calculator($numbers, "add"); 
+
+int $numbers1[] = {12, 8};
+float $subtractResult = calculator($numbers1, "subtract"); 
+
+int $numbers2[] = {5, 2};
+float $multiResult = calculator($numbers2, "multiply"); 
+
+int $numbers3[] = {12, 3};
+float $diviResult = calculator($numbers3, "divide"); 
+
+int $numbers4[] = {2, 3};
+float $powerResult = calculator($numbers4, "power");
+
+int $numbers5[] = {3, 2 ,6};
+float $meanResult = calculator($numbers5, "mean"); 
+
+int $number6[] = {8, 9, 5, 2};
+float $medianResult = calculator($numbers6, "median");
+
