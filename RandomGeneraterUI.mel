@@ -1,0 +1,69 @@
+global proc createMyUI() {
+    if (`window -exists myWindow`) {
+        deleteUI myWindow;
+    }
+
+    // Creates UI window
+    string $myWindow = `window -height 300
+                                -title "Random Generator"
+                                -width 400
+                                myWindow`;
+    string $mainColumn = `columnLayout -adjustableColumn true
+                                     -parent $myWindow`;
+
+    // UI text and buttons
+    text -parent $mainColumn -label "Number of Duplicates:";
+    intField -parent $mainColumn -value 1 -minValue 1 -maxValue 100 -step 1 numDuplicates;
+
+    text -parent $mainColumn -label "X Range of Values (Min, Max):";
+    floatFieldGrp -numberOfFields 2 -parent $mainColumn -value1 -10 -value2 10 rangeXValues;
+
+    text -parent $mainColumn -label "Y Range of Values (Min, Max):";
+    floatFieldGrp -numberOfFields 2 -parent $mainColumn -value1 -10 -value2 10 rangeYValues;
+
+    text -parent $mainColumn -label "Z Range of Values (Min, Max):";
+    floatFieldGrp -numberOfFields 2 -parent $mainColumn -value1 -10 -value2 10 rangeZValues;
+
+    button -parent $mainColumn -label "Generate Random Placement" -command "generateRandomPlacement()";
+
+    showWindow $myWindow;
+}
+
+// Random placement function
+global proc generateRandomPlacement() {
+    int $numDuplicates = `intField -query -value numDuplicates`;
+    float $xMin = `floatFieldGrp -query -value1 rangeXValues`;
+    float $xMax = `floatFieldGrp -query -value2 rangeXValues`;
+    float $yMin = `floatFieldGrp -query -value1 rangeYValues`;
+    float $yMax = `floatFieldGrp -query -value2 rangeYValues`;
+    float $zMin = `floatFieldGrp -query -value1 rangeZValues`;
+    float $zMax = `floatFieldGrp -query -value2 rangeZValues`;
+
+    RandomPlacement($numDuplicates, $xMin, $xMax, $yMin, $yMax, $zMin, $zMax);
+}
+
+// Random placement procedure
+global proc RandomPlacement(int $numDups, float $xMin, float $xMax, float $yMin, float $yMax, float $zMin, float $zMax) {
+    string $sels[] = `ls -selection`;
+
+    int $i;
+    int $j;
+    for ($i = 0; $i < size($sels); $i++) {
+        for ($j = 0; $j < $numDups; $j++) {
+            // Duplicate selected objects
+            string $newObj[] = `duplicate $sels[$i]`;
+
+            // Generate random positions 
+            float $randX = `rand $xMin $xMax`;
+            float $randY = `rand $yMin $yMax`;
+            float $randZ = `rand $zMin $zMax`;
+
+            // Move objects to random positions
+            move $randX $randY $randZ $newObj[0];
+        }
+    }
+}
+
+createMyUI();
+
+// The user needs to create and object in maya for the generator to work
