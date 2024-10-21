@@ -153,6 +153,6 @@ float $powerResult = calculator($numbers4, "power");
 int $numbers5[] = {3, 2 ,6};
 float $meanResult = calculator($numbers5, "mean"); 
 
-int $number6[] = {8, 9, 5, 2};
+int $numbers6[] = {8, 9, 5, 2};
 float $medianResult = calculator($numbers6, "median");
 
