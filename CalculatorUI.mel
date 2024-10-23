@@ -1,0 +1,151 @@
+// Creates the Calculator UI
+global proc createCalculatorUI() {
+    if (`window -exists myWindow`) {
+        deleteUI myWindow;
+    }
+
+    // Creates UI window
+    string $myWindow = `window -height 300
+                                -title "Calculator"
+                                -width 400
+                                myWindow`;
+    string $mainColumn = `columnLayout -adjustableColumn true
+                                     -parent $myWindow`;
+
+    // UI text and buttons
+    text -parent $mainColumn -label "Operation:";
+    string $operationMenu = `optionMenu -parent $mainColumn operationMenu`;
+    menuItem -label "Add";
+    menuItem -label "Subtract";
+    menuItem -label "Multiply";
+    menuItem -label "Divide";
+    menuItem -label "Power";
+    menuItem -label "Mean";
+    menuItem -label "Median";
+
+    text -parent $mainColumn -label "Number #1";
+    floatFieldGrp -numberOfFields 1 -parent $mainColumn -value1 0 numValue1;
+
+    text -parent $mainColumn -label "Number #2";
+    floatFieldGrp -numberOfFields 1 -parent $mainColumn -value1 0 numValue2;
+
+    text -parent $mainColumn -label "Result:";
+    textField -parent $mainColumn -editable false resultField;
+    
+    button -parent $mainColumn -label "Calculate" -command "performCalculation()";
+
+    showWindow $myWindow;
+}
+
+// Helper function
+global proc performCalculation() {
+    float $num1 = `floatFieldGrp -q -value1 numValue1`;
+    float $num2 = `floatFieldGrp -q -value1 numValue2`;
+    string $operationKey = `optionMenu -q -value operationMenu`;
+
+    float $result = calculate({$num1, $num2}, $operationKey);
+    print("Result: " + $result + "\n");
+
+    if ($result != -1) {
+        textField -e -text (" " + $result) resultField;
+    } 
+}
+
+// Addition
+global proc float add(float $input[]) {
+    float $sum = $input[0];
+    for ($i = 1; $i < size($input); $i++) {
+        $sum += $input[$i];
+    }
+    return $sum;
+}
+
+// Subtraction
+global proc float subtract(float $input[]) {
+    float $difference = $input[0];
+    for ($i = 1; $i < size($input); $i++) {
+        $difference -= $input[$i];
+    }
+    return $difference;
+}
+
+// Multiplication
+global proc float multiply(float $input[]) {
+    float $multiplication = $input[0];
+    for ($i = 1; $i < size($input); $i++) {
+        $multiplication *= $input[$i];
+    }
+    return $multiplication;
+}
+
+// Division
+global proc float divide(float $input[]) {
+    float $division = $input[0];
+    for ($i = 1; $i < size($input); $i++) {
+        if ($input[$i] != 0) {
+            $division /= $input[$i];
+        } else {
+            print("Error: Cannot divide by zero!\n");
+            return -1;
+        }
+    }
+    return $division;
+}
+
+// Power
+global proc float power(float $input[]) {
+    float $power1 = $input[0];
+    for ($i = 1; $i < size($input); $i++) {
+        $power1 = pow($power1, $input[$i]);
+    }
+    return $power1;
+}
+
+// Mean
+global proc float mean(float $input[]) {
+    float $sum1 = $input[0];
+    int $count = size($input);
+
+    for ($i = 1; $i < size($input); $i++) {
+        $sum1 += $input[$i];
+    }
+    return $sum1 / $count;
+}
+
+// Median
+global proc float median(float $input[]) {
+    int $count = size($input);
+    $input = sort($input);
+
+    if ($count % 2 == 1) {
+        return $input[($count - 1) / 2];
+    } else {
+        float $middle1 = $input[($count / 2) - 1];
+        float $middle2 = $input[$count / 2];
+        return ($middle1 + $middle2) / 2;
+    }
+}
+
+// Calculator function
+global proc float calculate(float $input[], string $operationKey) {
+    if ($operationKey == "Add") {
+        return add($input);
+    } else if ($operationKey == "Subtract") {
+        return subtract($input);
+    } else if ($operationKey == "Multiply") {
+        return multiply($input);
+    } else if ($operationKey == "Divide") {
+        return divide($input);
+    } else if ($operationKey == "Power") {
+        return power($input);
+    } else if ($operationKey == "Mean") {
+        return mean($input);
+    } else if ($operationKey == "Median") {
+        return median($input);
+    }
+}
+
+// Create the UI
+createCalculatorUI();
+
+// An example would be setting Add as the operation value and setting the numbers to 13 and 24 and the result would be 37
