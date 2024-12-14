@@ -16,6 +16,33 @@ def rename(naming_scheme):
         print(f"Result: {renamed_object}")
 
 
+class ControlWindow:
+    def __init__(self):
+        self.window_name = "ControlName"
+        
+    def create(self):
+        # Check if the window exists and delete it if necessary
+        if cmds.window(self.window_name, exists=True):
+            cmds.deleteUI(self.window_name)
+        
+        # Create a new window
+        self.window = cmds.window(self.window_name, title="Rename Controls", widthHeight=(300, 200))
+        self.layout = cmds.columnLayout(adjustableColumn=True)
+        
+        # UI Elements
+        cmds.text(label="Enter New Name (use # for numbering):")
+        self.name_field = cmds.textField(placeholderText="e.g., L_Arm_##_Jnt")
+        cmds.button(label="Rename", command=self.rename_selected_objects)
+        
+        cmds.showWindow(self.window)
+        
+    def rename_selected_objects(self, *args):
+        naming_scheme = cmds.textField(self.name_field, query=True, text=True)
+        rename(naming_scheme)
+
+# Create and display the control window
+my_window = ControlWindow()
+my_window.create()
 
 # Example usage:
 # rename("L_Leg_###_Jnt")
